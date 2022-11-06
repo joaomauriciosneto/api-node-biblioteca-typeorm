@@ -1,0 +1,357 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Biblioteca com Node, Express, TypeORM e PostgreSQL.",
+        "description": "Projeto desenvolvido por `João Maurício`, estudante fullstack.",
+        "termsOfService": "http://localhost:3333/v1/termos",
+        "contact": {
+            "email": "joaomauricio1975@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3333/v1",
+            "description": "API em desenvolvimento"
+        }
+    ],
+    "paths": {
+        "/biblioteca": {
+            "post": {
+                "summary": "Cadastro de biblioteca",
+                "description": "Essa rota é responsável por cadastrar as bibliotecas no sistema",
+                "tags": ["Bibliotecas"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Biblioteca"
+                            },
+                            "examples": {
+                                "biblioteca": {
+                                    "value": {
+                                        "nome": "modelo",
+                                        "url": "www.modelo.com"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Essa biblioteca já está cadastrada no sistema"
+                    },
+                    "201": {
+                        "description": "Biblioteca cadastrada com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Biblioteca"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "description": "Listando todas as bibliotecas",
+                "summary": "Lista de todas as bibliotecas cadastradas no sistema",
+                "tags": ["Bibliotecas"],
+                "responses": {
+                    "200": {
+                        "description": "Bibliotecas cadastradas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Biblioteca"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/biblioteca/{id}": {
+            "put": {
+                "description": "Alterando biblioteca",
+                "summary": "Alterando os dados da biblioteca",
+                "tags": ["Bibliotecas"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Digite o ID a biblioteca. Esse campo é obrigatório!",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Biblioteca"
+                            },
+                            "examples": {
+                                "biblioteca": {
+                                    "value": {
+                                        "nome": "modelo",
+                                        "url": "www.modelo.com"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Todos os campos precisam ser preenchidos!"
+                    },
+                    "404": {
+                        "description": "Biblioteca não encontrada!"
+                    },
+                    "200": {
+                        "description": "Biblioteca atualizada com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Biblioteca"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Excluindo biblioteca",
+                "summary": "Exlcuindo a biblioteca do sistema",
+                "tags": ["Bibliotecas"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Digite o ID da biblioteca. Esse campo é obrigatório!",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Biblioteca não encontrada!"
+                    },
+                    "200": {
+                        "description": "Biblioteca excluída com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Biblioteca"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/livro/{id}": {
+            "post": {
+                "summary": "Cadastro de livros",
+                "description": "Essa rota é responsável pelo cadastro dos livros no sistema",
+                "tags": ["Livros"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Digite o ID da biblioteca que deseja adicionar o livro",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/Livro"
+                            },
+                            "examples": {
+                                "livro": {
+                                    "value": {
+                                        "titulo": "titulo do livro",
+                                        "autor": "autor do livro",
+                                        "ano": "ano de lançamento do livro"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Todos os campos precisam ser preenchidos"
+                    },
+                    "404": {
+                        "description": "ID da biblioteca não encontrado"
+                    },
+                    "201": {
+                        "description": "Livro adicionado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Livro"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletar livro",
+                "summary": "Deleta o livro do sistema",
+                "tags": ["Livros"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Digite o ID do livro",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Livro não encontrado"
+                    },
+                    "200": {
+                        "description": "Livro excluído com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Livro"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/livro": {
+            "get": {
+                "description": "Listando todos os livros",
+                "summary": "Listando todos os livros do sistema",
+                "tags": ["Livros"],
+                "responses": {
+                    "200": {
+                        "description": "Listando todos os livros...",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Livro"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/livro/{id}/{id2}": {
+            "put": {
+                "description": "Alterando dados do livro",
+                "summary": "Editando todos os dados do livro",
+                "tags": ["Livros"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Digite o ID da biblioteca onde se encontra o livro a ser editado",
+                        "required": true
+                    },
+                    {
+                        "name": "id2",
+                        "in": "path",
+                        "description": "Digite o ID do livro a ser editado",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/Livro"
+                            },
+                            "examples": {
+                                "livro": {
+                                    "value": {
+                                        "titulo": "titulo do livro",
+                                        "autor": "autor do livro",
+                                        "ano": "ano de lançamento do livro"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "404": {
+                        "description": "Biblioteca e/ou livro não encontrado"
+                    },
+                    "400": {
+                        "description": "Todos os campos precisam ser preenchidos!"
+                    },
+                    "200": {
+                        "description": "Livro atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Livro"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Biblioteca": {
+                "type": "object",
+                "properties": {
+                    "nome": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "number"
+                    }
+                }
+            },
+        "Livro": {
+            "type": "object",
+            "properties": {
+                "idLivro": {
+                    "type": "number"
+                },
+                "titulo": {
+                    "type": "string"
+                },
+                "autor": {
+                    "type": "string"
+                },
+                "ano": {
+                    "type": "string"
+                },
+                "idBiblioteca": {
+                    "type": "number"
+                }
+            }
+        }
+        }
+    }
+}
